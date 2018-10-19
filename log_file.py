@@ -109,11 +109,6 @@ class LogFile:
                     """
                     fmt_id = int(msg[0])
                     self._formats[fmt_id] = Format(msg)
-                elif msg_id == 0x81:
-                    """
-                    Parameter value
-                    """
-                    pass
                 else:
                     if msg_id not in self._formats:
                         print("\tWARNING: Could not find format %0.2X"
@@ -133,5 +128,4 @@ if __name__ == '__main__':
     import sys
 
     for dp in LogFile(sys.argv[1]).read():
-        if dp.name == "VIBE":
-            print(dp)
+        print(dp)
