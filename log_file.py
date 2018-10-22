@@ -30,7 +30,7 @@ SCALARS = {
 
 class DataPoint:
     def __init__(self, name):
-        self.name = name
+        self.name = name.strip()
         self.values = {}
 
     def __repr__(self):
@@ -43,9 +43,9 @@ class Format:
 
         self._id = int(msg[0])
         self._length = int(msg[1])
-        self._name = msg[2:6].decode("utf-8")
-        self._types = msg[6:22].split(b'\x00')[0].decode("utf-8")
-        self._labels = msg[22:].split(b'\x00')[0].decode("utf-8").split(",")
+        self._name = msg[2:6].split(b'\x00')[0].decode("ascii")
+        self._types = msg[6:22].split(b'\x00')[0].decode("ascii")
+        self._labels = msg[22:].split(b'\x00')[0].decode("ascii").split(",")
 
         assert(len(self._types) == len(self._labels))
 
@@ -62,7 +62,7 @@ class Format:
 
             val = val.value
             if isinstance(val, bytes):
-                val = val.decode('utf-8')
+                val = val.decode('ascii')
             result.values[l] = val
 
         return result
@@ -128,4 +128,5 @@ if __name__ == '__main__':
     import sys
 
     for dp in LogFile(sys.argv[1]).read():
-        print(dp)
+        pass
+        # print(dp)
