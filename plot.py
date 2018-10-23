@@ -25,9 +25,11 @@ class Plot:
                                       data_point.values[v[1]])]
 
     def plot(self):
+        t_start = min([v[0][0] for v in self.data_sets])
         fig = plt.figure()
         for i, d in enumerate(self.data_sets):
-            plt.plot([v[0]/self.x_scale for v in d], [v[1] for v in d],
+            plt.plot([(v[0]-t_start)/self.x_scale for v in d],
+                     [v[1] for v in d],
                      label=".".join(self.desired_values[i]))
 
         plt.legend()
@@ -54,5 +56,5 @@ if __name__ == '__main__':
             if v.name not in all_formats:
                 all_formats[v.name] = [k for k in v.values]
 
-        for fmt in all_formats:
+        for fmt in sorted(all_formats.keys()):
             print("%4s: %s" % (fmt, ", ".join(all_formats[fmt])))
